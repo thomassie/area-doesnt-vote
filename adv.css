@@ -160,6 +160,38 @@
 .adv .tt__rows dt { font-family: var(--font-support); font-size: 0.8125rem; color: var(--muted); }
 .adv .tt__rows dd { margin: 0; font-family: var(--font-support); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
 
+/* ---------- Why the usual map misleads ---------- */
+.adv .essay { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--gap); padding-block: clamp(2.5rem, 6vw, 4rem); border-bottom: 1px solid var(--rule); }
+.adv .essay h2 { font-size: var(--step-2); }
+.adv .essay__body { display: grid; gap: 1rem; max-width: 42rem; min-width: 0; }
+.adv .essay__body h3 { font-size: var(--step-1); margin-top: 0.75rem; }
+.adv .essay__body b { font-weight: 500; }
+.adv .bias { margin: 0.5rem 0; display: grid; gap: 0.5rem; }
+.adv .bias figcaption { display: grid; gap: 0.15rem; font-size: 0.9375rem; }
+.adv .bias figcaption span { font-family: var(--font-support); font-size: var(--step--1); color: var(--muted); }
+.adv .bias svg { width: 100%; height: auto; display: block; }
+.adv .bias__bar { fill: color-mix(in srgb, var(--muted) 55%, var(--paper)); }
+.adv .bias__bar.is-now { fill: var(--ink); }
+.adv .bias__zero { stroke: var(--ink); stroke-width: 1px; }
+.adv .bias__val, .adv .bias__year { font-family: var(--font-support); font-size: 11.5px; fill: var(--muted); dominant-baseline: central; font-variant-numeric: tabular-nums; white-space: pre; }
+.adv .bias__year { text-anchor: end; }
+@container adv (max-width: 760px) {
+  .adv .essay { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* the selection kept by a click or tap: its figures in a bar at the bottom of the screen */
+.adv .pinbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; background: var(--paper); border-top: 1px solid var(--rule);
+  box-shadow: 0 -6px 24px rgb(0 0 0 / 0.10); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.adv .pinbar__inner { max-width: var(--max); margin-inline: auto; display: flex; align-items: flex-start; gap: 1rem;
+  padding: 0.6rem max(16px, env(safe-area-inset-right, 0px)) 0.7rem max(16px, env(safe-area-inset-left, 0px)); }
+.adv .pinbar__body { flex: 1; min-width: 0; font-size: 0.875rem; line-height: 1.35; }
+.adv .pinbar__body .tt__title { margin: 0.05rem 0 0.3rem; }
+.adv .pinbar__body .tt__rows { display: flex; flex-wrap: wrap; gap: 0.15rem 1.25rem; }
+.adv .pinbar__body .tt__rows div { gap: 0.4rem; }
+.adv .pinbar__close { flex: none; font: inherit; font-size: 1.5rem; line-height: 1; width: 44px; height: 44px; margin: -0.25rem -0.5rem 0 0;
+  color: var(--ink); background: transparent; border: 1px solid var(--rule); border-radius: 999px; cursor: pointer; }
+.adv .pinbar__close:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+
 /* cross-link to The Far Right in Germany under the maps */
 .adv .xlink { max-width: 46rem; margin: 1.5rem 0 0; padding: 0.8rem 1rem; border: 1px solid var(--rule); border-radius: 10px; font-size: 0.9375rem; line-height: 1.45; }
 .adv .xlink:empty { display: none; }

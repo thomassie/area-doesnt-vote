@@ -76,6 +76,25 @@
       '<figure class="akey" id="adv-akey" aria-label="Colour by far-right share, strength by eligible voters per km²"></figure>')}
   </section>
   <p class="xlink" id="adv-xlink"></p>
+  <section class="essay" aria-labelledby="adv-h-why">
+    <h2 id="adv-h-why">Why the usual map misleads${DOT}</h2>
+    <div class="essay__body">
+      <p>The land map colours each area by a share of the vote. The eye, though, weighs a colour by the space it covers, and areas differ enormously in how many people live in them. In 2025 Berlin had <span data-f="be-e"></span> eligible voters on <span data-f="be-km2"></span> km&sup2;; <span data-f="big-n"></span>, Germany&rsquo;s largest county, had <span data-f="big-e"></span> on <span data-f="big-km2"></span> km&sup2;. On the land map the county takes <span data-f="big-x"></span> times Berlin&rsquo;s space with <span data-f="big-p"></span> of its voters.</p>
+      <p>That matters when a party does better in the countryside. In 2025 the far right beat its national <span data-f="de-res"></span> in <span data-f="de-n"></span> counties. They cover <span data-f="de-land"></span> of Germany but hold <span data-f="de-e"></span> of its eligible voters, so the land map shows the far right at <span data-f="de-avg"></span> on average. In Saxony it won <span data-f="sn-res"></span>: the <span data-f="sn-n"></span> counties where it did better cover <span data-f="sn-land"></span> of the state, while <span data-f="sn-below"></span>, below that, hold <span data-f="sn-e"></span> of the voters on <span data-f="sn-bland"></span> of the land.</p>
+      <figure class="bias" id="adv-bias">
+        <figcaption><b>How much stronger the far right looks on the land map than it was</b><span>Far-right share averaged over the land map (each county weighted by its area) against the result, Germany by county; West Germany before 1990.</span></figcaption>
+        <svg viewBox="0 0 640 210" role="img" aria-label="Bar chart: the land map's far-right share relative to the result, for each federal election since 1953"></svg>
+      </figure>
+      <p>The far right did better in thinly populated counties in <span data-f="bias-n"></span> of the <span data-f="bias-all"></span> elections, so the land map has nearly always made it look stronger than it was: by <span data-f="bias-25"></span> in 2025.</p>
+      <h3>Other traps</h3>
+      <p><b>Winner maps.</b> Colouring each constituency in the colour of its strongest party keeps only first place. <a href="https://www.srf.ch/news/international/deutschland-wahlen-2025/wahlen-in-deutschland-schwarzer-westen-blauer-osten-so-waehlten-die-299-wahlkreise">SRF&rsquo;s map of the 299 constituencies</a> showed a blue east, the AfD ahead in 45 of 48 eastern constituencies; yet the far right won <span data-f="east"></span> of the second votes in the five eastern states, and nearly two in three voters there chose other parties.</p>
+      <p><b>Smaller areas, stronger colours.</b> The smaller the areas, the more extreme the shares at the top. No county gave the far right half of its votes in 2025 (the highest, <span data-f="top"></span>), but on the town map of <a href="${GERMANY}#towns-2025">The Far Right in Germany</a> the AfD alone passed 50% in 100 areas. Both maps are right; they answer different questions.</p>
+      <p><b>Where the steps fall.</b> The class limits decide what stands out, and the darkest colours draw the eye first. Both pages use the same nine classes in every election, so colours compare across the years.</p>
+      <h3>Doing better</h3>
+      <p>Size areas by people: a contiguous cartogram keeps every neighbour, circles keep the areas exact, tiles make people countable, and each gives up some of the familiar shape. Or keep the map and let empty land fade, as value-by-alpha does. And show the numbers behind the colours: how many people each area holds, and the result itself. None of this is new. <a href="https://www.fastcompany.com/90572489/u-">Karim Dou&iuml;eb&rsquo;s animation</a> of the 2016 US county map turning into circles sized by votes went round the world in 2019 and 2020; <a href="https://www.datawrapper.de/blog/cartograms">Lisa Charlotte Muth</a> explains when a cartogram serves better than a map; <a href="https://www.bloomberg.com/news/articles/2020-11-03/a-complete-guide-to-misleading-election-maps">Bloomberg</a> listed the ways election maps mislead before the 2020 US election.</p>
+    </div>
+  </section>
+
   <details class="tableview" id="adv-table">
     <summary>Show as a table</summary>
     <div class="tablewrap"><table><thead></thead><tbody></tbody></table></div>
@@ -96,7 +115,10 @@
     <p class="credit">Results by county: Die Bundeswahlleiterin, <a href="https://www.bundeswahlleiterin.de/bundestagswahlen/2025/ergebnisse/weitere-ergebnisse.html">Ergebnisse nach kreisfreien St&auml;dten und Landkreisen</a> (one file per federal election, 1953&ndash;2025), Wiesbaden. County boundaries: &copy; <a href="https://www.bkg.bund.de">BKG</a> (2026) <a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a>, VG-Hist, <a href="https://sgx.geodatenzentrum.de/web_public/gdz/datenquellen/datenquellen_vg-hist.pdf">Datenquellen</a>; changed: generalised, counties merged where the results merge them, and distorted in the cartograms. Methods: J. A. Dougenik, N. R. Chrisman &amp; D. R. Niemeyer (1985), An algorithm to construct continuous area cartograms, <em>The Professional Geographer</em> 37(1); D. Dorling (1996), <em>Area Cartograms: Their Use and Creation</em>, CATMOG 59; R. E. Roth, A. W. Woodruff &amp; Z. F. Johnson (2010), Value-by-alpha maps: an alternative technique to the cartogram, <em>The Cartographic Journal</em> 47(2).</p>
   </div>
 </footer>
-<div class="tooltip" id="adv-tt" role="status" hidden></div>`;
+<div class="tooltip" id="adv-tt" role="status" hidden></div>
+<div class="pinbar" id="adv-pin" role="status" aria-label="Selected area" hidden>
+  <div class="pinbar__inner"><div class="pinbar__body"></div><button type="button" class="pinbar__close" aria-label="Clear the selection">&times;</button></div>
+</div>`;
   if (root.dataset.header === 'false') root.querySelector('.masthead').remove();
 
   // ---------- constants ----------
@@ -381,6 +403,7 @@
     $('#adv-xlink').innerHTML = '<b>Behind the colours.</b> Which lists count as far right, every state election since 1946 and what goes with the far-right vote: ' +
       '<a href="' + GERMANY + '#counties-' + S.year + '">the ' + S.year + ' county map on The Far Right in Germany</a>, with each list&rsquo;s result in every county.';
     renderTable(V);
+    restorePin();
     grid.classList.remove('loading');
   }
   let CURRENT = null;
@@ -439,9 +462,13 @@
     await render();
   }
 
-  // ---------- tooltip and linked highlight ----------
-  const tt = $('#adv-tt');
-  let hot = null;
+  // ---------- hover, and a selection that stays ----------
+  // Hovering shows an area in all five maps; a click or tap keeps it (with its figures in a bar at the bottom of the
+  // screen) until the same area is clicked again, the bar is closed or Escape is pressed. The selection follows the
+  // view: it stays when the year or level changes, as long as the area exists there.
+  const tt = $('#adv-tt'), bar = $('#adv-pin');
+  let hot = null, pinned = null;          // hot: key shown now ('i<index>'); pinned: { id } of the kept area
+  const idOf = (d) => (d.isState ? 's:' + d.s : 'u:' + d.u);
   function info(i) {
     const V = CURRENT, d = V.items[i];
     const tiles = V.hex.cells.filter((v, j) => j % 3 === 2 && v === i).length;
@@ -452,15 +479,16 @@
       '<div><dt>Voters per km²</dt><dd>' + fmt(Math.round(dens(d))) + '</dd></div>' +
       '<div><dt>Hexagons</dt><dd>' + tiles + '</dd></div></dl>';
   }
-  function show(k, x, y) {
-    if (k !== hot) {
-      grid.querySelectorAll('.is-hot').forEach((e) => e.classList.remove('is-hot'));
-      grid.querySelectorAll('[data-k="' + k + '"]').forEach((e) => e.classList.add('is-hot'));
-      grid.classList.add('is-focus');
-      tt.innerHTML = info(+k.slice(1));
-      tt.hidden = false;
-      hot = k;
-    }
+  function mark(k) {
+    if (k === hot) return;
+    grid.querySelectorAll('.is-hot').forEach((e) => e.classList.remove('is-hot'));
+    if (k) grid.querySelectorAll('[data-k="' + k + '"]').forEach((e) => e.classList.add('is-hot'));
+    grid.classList.toggle('is-focus', !!k);
+    hot = k;
+  }
+  function tipAt(k, x, y) {
+    tt.innerHTML = info(+k.slice(1));
+    tt.hidden = false;
     const r = tt.getBoundingClientRect();
     let left = x + 14, top = y + 14;
     if (left + r.width > window.innerWidth - 8) left = Math.max(8, x - r.width - 14);
@@ -468,28 +496,100 @@
     tt.style.left = left + 'px';
     tt.style.top = top + 'px';
   }
-  function hide() {
-    if (!hot) return;
-    grid.querySelectorAll('.is-hot').forEach((e) => e.classList.remove('is-hot'));
-    grid.classList.remove('is-focus');
+  const pinnedKey = () => {
+    if (!pinned || !CURRENT) return null;
+    const i = CURRENT.items.findIndex((d) => idOf(d) === pinned.id);
+    return i < 0 ? null : 'i' + i;
+  };
+  function pin(k) {
+    pinned = { id: idOf(CURRENT.items[+k.slice(1)]) };
     tt.hidden = true;
+    mark(k);
+    bar.querySelector('.pinbar__body').innerHTML = info(+k.slice(1));
+    bar.hidden = false;
+  }
+  function unpin() {
+    pinned = null;
+    bar.hidden = true;
+    mark(null);
+  }
+  function hide() {             // hover ends: back to the kept area, if any
+    tt.hidden = true;
+    mark(pinnedKey());
+  }
+  function restorePin() {       // after a redraw
     hot = null;
+    const k = pinnedKey();
+    if (k) pin(k); else unpin();
   }
   grid.querySelectorAll('svg').forEach((svg) => {
     svg.addEventListener('pointermove', (e) => {
       if (e.pointerType !== 'mouse') return;
       const t = e.target.closest('.k');
-      if (t) show(t.dataset.k, e.clientX, e.clientY); else hide();
+      if (t) { mark(t.dataset.k); tipAt(t.dataset.k, e.clientX, e.clientY); } else hide();
     });
     svg.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') hide(); });
-    svg.addEventListener('pointerdown', (e) => {
-      if (e.pointerType === 'mouse') return;
+    svg.addEventListener('click', (e) => {
       const t = e.target.closest('.k');
-      if (t) { show(t.dataset.k, e.clientX, e.clientY); e.stopPropagation(); } else hide();
+      if (!t) return;
+      if (pinned && pinnedKey() === t.dataset.k) unpin(); else pin(t.dataset.k);
     });
   });
-  document.addEventListener('pointerdown', (e) => { if (!grid.contains(e.target)) hide(); });
-  window.addEventListener('scroll', () => { if (hot) hide(); }, { passive: true });
+  bar.querySelector('.pinbar__close').addEventListener('click', unpin);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && pinned) unpin(); });
+  window.addEventListener('scroll', () => { if (!tt.hidden) hide(); }, { passive: true });
+
+  // ---------- the essay: figures from the data ----------
+  async function fillEssay() {
+    const y = 2025, M = await load('maps_' + y), byU = ROWS.get(y);
+    if (!byU) return;
+    const cs = M.units.map((u, i) => ({ ...byU.get(u), km2: M.km2[i] }));
+    const sum = (a, f) => d3.sum(a, f);
+    const res = (a) => 100 * sum(a, (d) => d.r) / sum(a, (d) => d.v);
+    const F = {};
+    const be = cs.find((d) => d.n === 'Berlin'), big = d3.greatest(cs, (d) => d.km2);
+    F['be-e'] = fmt(be.e); F['be-km2'] = fmt(Math.round(be.km2));
+    F['big-n'] = short(big.n); F['big-e'] = fmt(big.e); F['big-km2'] = fmt(Math.round(big.km2));
+    F['big-x'] = d3.format('.1f')(big.km2 / be.km2); F['big-p'] = d3.format('.0%')(big.e / be.e);
+    const r = res(cs), hi = cs.filter((d) => share(d) > r);
+    F['de-res'] = pct(r); F['de-n'] = fmt(hi.length);
+    F['de-land'] = pct(100 * sum(hi, (d) => d.km2) / sum(cs, (d) => d.km2)); F['de-e'] = pct(100 * sum(hi, (d) => d.e) / sum(cs, (d) => d.e));
+    F['de-avg'] = pct(sum(cs, (d) => d.km2 * share(d)) / sum(cs, (d) => d.km2));
+    const sn = cs.filter((d) => d.s === 'SN'), rs = res(sn), up = sn.filter((d) => share(d) > rs), down = sn.filter((d) => share(d) <= rs);
+    F['sn-res'] = pct(rs); F['sn-n'] = up.length === 10 ? 'ten' : String(up.length);
+    F['sn-land'] = pct(100 * sum(up, (d) => d.km2) / sum(sn, (d) => d.km2)); F['sn-bland'] = pct(100 * sum(down, (d) => d.km2) / sum(sn, (d) => d.km2));
+    F['sn-e'] = pct(100 * sum(down, (d) => d.e) / sum(sn, (d) => d.e));
+    const names = down.sort((a, b) => b.e - a.e).map((d) => short(d.n));
+    F['sn-below'] = names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names.at(-1) : names.join('');
+    F.east = pct(res(cs.filter((d) => EAST.has(d.s))));
+    const top = d3.greatest(cs, share);
+    F.top = short(top.n) + ', ' + pct(share(top));
+    const bias = INDEX.years.map((yy) => ({ y: yy, res: INDEX.land[yy][0], land: INDEX.land[yy][1] }));
+    bias.forEach((b) => { b.rel = b.res ? 100 * (b.land / b.res - 1) : 0; });
+    F['bias-n'] = String(bias.filter((b) => b.land > b.res).length); F['bias-all'] = String(bias.length);
+    F['bias-25'] = d3.format('.0f')(bias.at(-1).rel) + '%';
+    root.querySelectorAll('[data-f]').forEach((e) => { if (F[e.dataset.f] != null) e.textContent = F[e.dataset.f]; });
+    // the bar chart: land map vs result, relative; one row per election, drawn to the width of its column
+    const fig = $('#adv-bias'), svg = fig.querySelector('svg');
+    const draw = () => {
+      const Wc = Math.max(280, Math.round(fig.clientWidth)), row = 20, m = { t: 4, r: 140, b: 4, l: 44 }, Hc = m.t + m.b + row * bias.length;
+      svg.setAttribute('viewBox', '0 0 ' + Wc + ' ' + Hc);
+      svg.replaceChildren();
+      const yB = d3.scaleBand(bias.map((b) => b.y), [m.t, Hc - m.b]).padding(0.25);
+      const xS = d3.scaleLinear([Math.min(0, d3.min(bias, (b) => b.rel)), Math.max(5, d3.max(bias, (b) => b.rel))], [m.l, Wc - m.r]);
+      bias.forEach((b) => {
+        const x0 = xS(0), x1 = xS(b.rel), yy = yB(b.y), mid = yy + yB.bandwidth() / 2;
+        el('text', svg, { class: 'bias__year', x: m.l - 8, y: mid.toFixed(1) }).textContent = b.y;
+        el('rect', svg, { class: 'bias__bar' + (b.y === y ? ' is-now' : ''), x: Math.min(x0, x1).toFixed(1), y: yy.toFixed(1), width: Math.max(1, Math.abs(x1 - x0)).toFixed(1), height: yB.bandwidth().toFixed(1) });
+        el('text', svg, { class: 'bias__val', x: (Math.max(x0, x1) + 6).toFixed(1), y: mid.toFixed(1) }).textContent =
+          (b.rel >= 0.5 ? '+' : '') + d3.format('.0f')(b.rel) + '%  ' + d3.format('.1f')(b.land) + ' vs ' + d3.format('.1f')(b.res);
+      });
+      el('line', svg, { class: 'bias__zero', x1: xS(0).toFixed(1), x2: xS(0).toFixed(1), y1: m.t, y2: Hc - m.b });
+    };
+    draw();
+    let lastW = fig.clientWidth;
+    new ResizeObserver(() => { if (Math.abs(fig.clientWidth - lastW) > 4) { lastW = fig.clientWidth; draw(); } }).observe(fig);
+  }
 
   // ---------- start ----------
   async function boot() {
@@ -523,7 +623,8 @@
     });
     window.addEventListener('hashchange', () => { if (readHash()) { setYear(S.year); render(); } });
     if (!readHash()) S.year = years[years.length - 1];
-    go();
+    await go();
+    fillEssay().catch(() => {});
   }
   boot();
 })();
