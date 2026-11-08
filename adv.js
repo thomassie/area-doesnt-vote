@@ -38,10 +38,15 @@
   <div class="masthead__text">
     <p class="eyebrow">Europe&rsquo;s Divides</p>
     <h1>Area Doesn&rsquo;t Vote${DOT}</h1>
-    <p class="lede">Election maps size every place by its land. But land doesn&rsquo;t vote, people do. Here Germany&rsquo;s federal elections are drawn four ways so that size follows the people eligible to vote, next to the usual map. The colour is the far right&rsquo;s share of the second vote. A companion to <a href="${GERMANY}">The Far Right in Germany</a>.</p>
   </div>
 </div>
 <div class="wrap">
+  <section class="intro" aria-label="About this page">
+    <p class="lede">Election results are usually shown on a choropleth map: every area, be it a state, a county or a town, is coloured by a share of the vote. Such a map is quick to read and easy to make. It also has a bias built in. The eye weighs a colour by the space it covers, but land doesn&rsquo;t vote, people do.</p>
+    <p>On <a href="${GERMANY}">The Far Right in Germany</a> I map the far right&rsquo;s share of the second vote in every federal election since 1953: county by county within the boundaries of election day, and town by town for 2017 to 2025, all from the federal returning officer&rsquo;s official results. There I chose choropleth maps on purpose. With 400 counties, or some 10,700 municipalities, readers first need to find their way: their own place, the regions they know, the borders between the states. The familiar map does that best.</p>
+    <p>I am aware of what that map gets wrong. Big, thinly populated counties fill most of it, so wherever the far right does better in the countryside, the map makes it look stronger than it is. This page is my explainer: the same results drawn four more ways, sized by the people eligible to vote, next to the usual map, and below them what each way shows and hides.</p>
+    <p>Maps can mislead by accident, through a default nobody questioned, or on purpose, to steer readers towards a conclusion the data do not support. As with charts, doing it on purpose is never acceptable. A map should show what the data say, state what it sizes and colours, and let readers check the numbers behind it. That is the standard I hold these maps to.</p>
+  </section>
   <div class="controls">
     <div class="seg seg--years" id="adv-years" role="group" aria-label="Election"></div>
     <div class="controls__bar">

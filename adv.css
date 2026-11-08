@@ -54,6 +54,11 @@
 .adv .masthead h1 { font-size: var(--step-3); letter-spacing: -0.02em; }
 .adv .lede { font-size: var(--step-1); line-height: 1.45; max-width: 40rem; }
 
+/* ---------- Intro (shown also when the host page brings its own title) ---------- */
+.adv .intro { display: grid; gap: 1rem; max-width: 44rem; padding-block: clamp(1.5rem, 4vw, 2.5rem) 0; }
+.adv .intro .lede { font-size: var(--step-1); line-height: 1.45; }
+.adv:not(.adv--standalone) .intro { padding-top: 0; }
+
 /* ---------- Switches ---------- */
 .adv .controls { display: grid; gap: 0.75rem; padding-block: clamp(1.75rem, 4vw, 2.75rem) 0.75rem; }
 .adv--standalone .controls__bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; }
