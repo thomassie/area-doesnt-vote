@@ -160,6 +160,11 @@
 .adv .tt__rows dt { font-family: var(--font-support); font-size: 0.8125rem; color: var(--muted); }
 .adv .tt__rows dd { margin: 0; font-family: var(--font-support); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
 
+/* cross-link to The Far Right in Germany under the maps */
+.adv .xlink { max-width: 46rem; margin: 1.5rem 0 0; padding: 0.8rem 1rem; border: 1px solid var(--rule); border-radius: 10px; font-size: 0.9375rem; line-height: 1.45; }
+.adv .xlink:empty { display: none; }
+.adv .xlink b { font-weight: 500; }
+
 /* table view */
 .adv .tableview { padding-block: 1.5rem; border-bottom: 1px solid var(--rule); }
 .adv .tableview summary { font-family: var(--font-support); font-size: 0.9375rem; cursor: pointer; color: var(--link); width: max-content; max-width: 100%; }

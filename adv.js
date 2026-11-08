@@ -11,7 +11,9 @@
    (index), data/maps_<year>.json (Germany) and data/states_<year>.json (one state at a time).
    Styles: adv.css (scoped under .adv); colours come from the host's tokens or theme.css.
    One meaning per colour: red = far right, ink = the actual result.
-   The address keeps the view: #2025, #2025-counties, #2025-by (a state's two-letter code). */
+   The address keeps the view: #2025, #2025-counties, #2025-by (a state's two-letter code).
+   Cross-links: the lede and the note under the maps link to The Far Right in Germany (GERMANY); #counties-<year>
+   opens its county map at that year. */
 (function () {
   'use strict';
 
@@ -21,6 +23,7 @@
   root.classList.add('adv');
   if (root.dataset.layout === 'standalone') root.classList.add('adv--standalone');
 
+  const GERMANY = 'https://thomassie.me/projects/far-right-germany/';   // companion page: parties, state elections, county and town maps
   const DOT = '<svg class="title-dot" viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="5"/></svg>';
   const card = (kind, title, by, aria, pros, cons, extra = '') => `
     <article class="card card--${kind}" data-panel="${kind}">
@@ -35,7 +38,7 @@
   <div class="masthead__text">
     <p class="eyebrow">Europe&rsquo;s Divides</p>
     <h1>Area Doesn&rsquo;t Vote${DOT}</h1>
-    <p class="lede">Election maps size every place by its land. But land doesn&rsquo;t vote, people do. Here Germany&rsquo;s federal elections are drawn four ways so that size follows the people eligible to vote, next to the usual map. The colour is the far right&rsquo;s share of the second vote.</p>
+    <p class="lede">Election maps size every place by its land. But land doesn&rsquo;t vote, people do. Here Germany&rsquo;s federal elections are drawn four ways so that size follows the people eligible to vote, next to the usual map. The colour is the far right&rsquo;s share of the second vote. A companion to <a href="${GERMANY}">The Far Right in Germany</a>.</p>
   </div>
 </div>
 <div class="wrap">
@@ -72,6 +75,7 @@
       ['Land still takes the space, only fainter.', 'A faded dark colour can look like a strong light one.'],
       '<figure class="akey" id="adv-akey" aria-label="Colour by far-right share, strength by eligible voters per km²"></figure>')}
   </section>
+  <p class="xlink" id="adv-xlink"></p>
   <details class="tableview" id="adv-table">
     <summary>Show as a table</summary>
     <div class="tablewrap"><table><thead></thead><tbody></tbody></table></div>
@@ -87,7 +91,7 @@
       <li>Dorling circles (Dorling 1996): one circle per area, its area proportional to eligible voters, pulled towards the area&rsquo;s centre and pushed apart until none overlap.</li>
       <li>Equal-voter hexagons: a grid laid over the cartogram, each area rounded to whole tiles (at least one), then tiles passed along shared borders until every area has its exact count and stays in one piece. Tiles keep their size from election to election: 25,000 eligible voters on the county map of Germany, 50,000 on the state map, and a fixed size per state on the state maps.</li>
       <li>Value-by-alpha (Roth, Woodruff &amp; Johnson 2010): the land map, its colours fading where few people live, in four classes of eligible voters per km&sup2;: under 100, 100&ndash;250, 250&ndash;1,000 and over 1,000.</li>
-      <li>Counties as in the federal returning officer&rsquo;s county files, on the boundaries of election day; Berlin as one area. 1953&ndash;1987: West Germany only. The files for 1957, 1965 and 1980 count the far-right list among &ldquo;others&rdquo;, so these elections are missing; the 1961 file leaves out postal votes. Far right as on <a href="https://thomassie.me/far-right-germany/">The Far Right in Germany</a>, which lists every party counted and the sources of the classification (the AfD from 2017).</li>
+      <li>Counties as in the federal returning officer&rsquo;s county files, on the boundaries of election day; Berlin as one area. 1953&ndash;1987: West Germany only. The files for 1957, 1965 and 1980 count the far-right list among &ldquo;others&rdquo;, so these elections are missing; the 1961 file leaves out postal votes. Far right as on <a href="${GERMANY}">The Far Right in Germany</a>, which lists every party counted and the sources of the classification (the AfD from 2015).</li>
     </ul>
     <p class="credit">Results by county: Die Bundeswahlleiterin, <a href="https://www.bundeswahlleiterin.de/bundestagswahlen/2025/ergebnisse/weitere-ergebnisse.html">Ergebnisse nach kreisfreien St&auml;dten und Landkreisen</a> (one file per federal election, 1953&ndash;2025), Wiesbaden. County boundaries: &copy; <a href="https://www.bkg.bund.de">BKG</a> (2026) <a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a>, VG-Hist, <a href="https://sgx.geodatenzentrum.de/web_public/gdz/datenquellen/datenquellen_vg-hist.pdf">Datenquellen</a>; changed: generalised, counties merged where the results merge them, and distorted in the cartograms. Methods: J. A. Dougenik, N. R. Chrisman &amp; D. R. Niemeyer (1985), An algorithm to construct continuous area cartograms, <em>The Professional Geographer</em> 37(1); D. Dorling (1996), <em>Area Cartograms: Their Use and Creation</em>, CATMOG 59; R. E. Roth, A. W. Woodruff &amp; Z. F. Johnson (2010), Value-by-alpha maps: an alternative technique to the cartogram, <em>The Cartographic Journal</em> 47(2).</p>
   </div>
@@ -368,12 +372,14 @@
     const f = FILES.get(S.year), notes = [];
     if (S.year < 1990 && S.area === 'DE') notes.push('West Germany only: there were no free elections in the GDR, and West Berlin did not vote directly.');
     if (f && !f.post) notes.push('The ' + S.year + ' county file leaves out postal votes (' + pct(f.un) + ' of the national vote).');
-    if (S.year === 2013) notes.push('The AfD is counted as far right from 2017.');
+    if (S.year === 2013) notes.push('The AfD counts as far right from 2015, so its 2013 result is not included.');
     $('#adv-note').textContent = notes.join(' ');
     $('#adv-note').hidden = !notes.length;
     $('#adv-count').textContent = S.area === 'DE' ? '' : V.items.length + ' counties';
     $('#adv-level').querySelector('[data-level="counties"]').textContent = ROWS.get(S.year).size + ' counties';
     $('#adv-level').querySelector('[data-level="states"]').textContent = (S.area === 'DE' ? V.byState ? V.items.length : new Set(V.items.map((d) => d.s)).size : 16) + ' states';
+    $('#adv-xlink').innerHTML = '<b>Behind the colours.</b> Which lists count as far right, every state election since 1946 and what goes with the far-right vote: ' +
+      '<a href="' + GERMANY + '#counties-' + S.year + '">the ' + S.year + ' county map on The Far Right in Germany</a>, with each list&rsquo;s result in every county.';
     renderTable(V);
     grid.classList.remove('loading');
   }
