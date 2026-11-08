@@ -41,6 +41,19 @@
   </div>
 </div>
 <div class="wrap">
+  <section class="hero" aria-label="In short">
+    <div class="hero__item">
+      <p class="hero__label"><i class="hero__sw hero__sw--map"></i>Far right on the land map</p>
+      <p class="hero__figure" id="adv-hero-map">&nbsp;</p>
+      <p class="hero__text">its share of the <span data-hero="year"></span> federal election as the usual county map shows it, each county counting by its land</p>
+    </div>
+    <div class="hero__item">
+      <p class="hero__label"><i class="hero__sw hero__sw--votes"></i>Far right among the votes</p>
+      <p class="hero__figure" id="adv-hero-votes">&nbsp;</p>
+      <p class="hero__text">its actual share of the second votes</p>
+    </div>
+    <p class="hero__why">The map makes the far right look <b data-hero="more"></b> stronger than it was. The <span data-f="de-n"></span> counties where it did better than its national result cover <b data-f="de-land"></b> of the land but hold only <b data-f="de-e"></b> of the eligible voters: big, thinly populated counties fill the map, while the cities, home to far more voters per square kilometre, shrink to small patches.</p>
+  </section>
   <section class="intro" aria-label="About this page">
     <p class="lede">Election results are usually shown on a choropleth map: every area, be it a state, a county or a town, is coloured by a share of the vote. Such a map is quick to read and easy to make. It also has a bias built in. The eye weighs a colour by the space it covers, but land doesn&rsquo;t vote, people do.</p>
     <p>On <a href="${GERMANY}">The Far Right in Germany</a> I map the far right&rsquo;s share of the second vote in every federal election since 1953: county by county within the boundaries of election day, and town by town for 2017 to 2025, all from the federal returning officer&rsquo;s official results. There I chose choropleth maps on purpose. With 400 counties, or some 10,700 municipalities, readers first need to find their way: their own place, the regions they know, the borders between the states. The familiar map does that best.</p>
@@ -611,6 +624,12 @@
       return;
     }
     const years = INDEX.years;
+    const last = years[years.length - 1], [heroRes, heroMap] = INDEX.land[last];
+    const big = (x) => d3.format('.1f')(x) + '<small>%</small>';
+    $('#adv-hero-map').innerHTML = big(heroMap);
+    $('#adv-hero-votes').innerHTML = big(heroRes);
+    root.querySelector('[data-hero="year"]').textContent = last;
+    root.querySelector('[data-hero="more"]').textContent = d3.format('.0f')(100 * (heroMap / heroRes - 1)) + '%';
     $('#adv-years').innerHTML = years.map((y) => '<button type="button" data-year="' + y + '" aria-pressed="false">' + y + '</button>').join('');
     $('#adv-year').innerHTML = years.slice().reverse().map((y) => '<option value="' + y + '">' + y + '</option>').join('');
     $('#adv-key').innerHTML = '<span class="key__title">Far right, % of second votes</span>' +

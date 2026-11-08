@@ -54,10 +54,27 @@
 .adv .masthead h1 { font-size: var(--step-3); letter-spacing: -0.02em; }
 .adv .lede { font-size: var(--step-1); line-height: 1.45; max-width: 40rem; }
 
+/* ---------- Headline figures: the far right on the land map and among the votes ---------- */
+.adv .hero { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem clamp(1.5rem, 4vw, 3rem); align-items: start;
+  padding-block: clamp(2rem, 5vw, 3.5rem); border-bottom: 1px solid var(--rule); }
+.adv:not(.adv--standalone) .hero { padding-top: 0.5rem; }
+.adv .hero__item { display: grid; gap: 0.6rem; align-content: start; min-width: 0; }
+.adv .hero__label { font-family: var(--font-support); font-size: 0.875rem; color: var(--muted); display: inline-flex; align-items: center; gap: 0.5rem; }
+.adv .hero__sw { display: inline-block; width: 12px; height: 12px; flex: none; border-radius: 50%; }
+.adv .hero__sw--map { background: var(--red); }
+.adv .hero__sw--votes { background: var(--ink); }
+.adv .hero__figure { font-family: var(--font-body); font-weight: 500; font-size: clamp(3.25rem, 10vw, 6.5rem); line-height: 0.9; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.adv .hero__figure small { font-size: 0.45em; letter-spacing: 0; margin-left: 0.04em; }
+.adv .hero__text { color: var(--muted); max-width: 26rem; }
+.adv .hero__why { grid-column: 1 / -1; font-size: var(--step-1); line-height: 1.45; max-width: 46rem; }
+.adv .hero__why b { font-weight: 500; }
+@container adv (max-width: 520px) {
+  .adv .hero { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* ---------- Intro (shown also when the host page brings its own title) ---------- */
 .adv .intro { display: grid; gap: 1rem; max-width: 44rem; padding-block: clamp(1.5rem, 4vw, 2.5rem) 0; }
 .adv .intro .lede { font-size: var(--step-1); line-height: 1.45; }
-.adv:not(.adv--standalone) .intro { padding-top: 0; }
 
 /* ---------- Switches ---------- */
 .adv .controls { display: grid; gap: 0.75rem; padding-block: clamp(1.75rem, 4vw, 2.75rem) 0.75rem; }
