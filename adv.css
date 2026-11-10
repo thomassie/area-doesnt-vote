@@ -143,8 +143,8 @@
 .adv .card svg { width: 100%; height: auto; display: block; touch-action: manipulation; }
 .adv .stat { display: grid; gap: 0.35rem; font-family: var(--font-support); font-size: var(--step--1); color: var(--muted); }
 .adv .stat b { color: var(--ink); font-weight: 500; }
-.adv .track { position: relative; height: 8px; background: color-mix(in srgb, var(--rule) 70%, var(--paper)); border-radius: 2px; }
-.adv .track__fill { position: absolute; inset: 0 auto 0 0; background: var(--red); border-radius: 2px; }
+.adv .track { position: relative; height: 8px; background: color-mix(in srgb, var(--rule) 70%, var(--paper)); border-radius: 0; }
+.adv .track__fill { position: absolute; inset: 0 auto 0 0; background: var(--red); border-radius: 0; }
 .adv .track__tick { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; background: var(--ink); }
 .adv .pc { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.25rem; font-size: 0.9375rem; line-height: 1.4; }
 .adv .pc li { padding-left: 1.2em; text-indent: -1.2em; }
@@ -178,7 +178,7 @@
 
 /* tooltip */
 .adv .tooltip { position: fixed; z-index: 20; pointer-events: none; width: max-content; max-width: min(17rem, calc(100vw - 16px));
-  padding: 0.7rem 0.85rem; background: var(--paper); color: var(--ink); border: 1px solid var(--rule); border-radius: 10px;
+  padding: 0.7rem 0.85rem; background: var(--paper); color: var(--ink); border: 1px solid var(--rule); border-radius: 0;
   box-shadow: 0 6px 24px rgb(0 0 0 / 0.12); font-size: 0.875rem; line-height: 1.4; }
 .adv .tt__meta { font-family: var(--font-support); font-size: 0.75rem; color: var(--muted); }
 .adv .tt__title { font-weight: 500; margin: 0.1rem 0 0.45rem; }
