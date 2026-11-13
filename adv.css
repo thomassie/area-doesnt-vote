@@ -145,6 +145,10 @@
 .adv .c7 { --c: var(--red); }
 .adv .c8 { --c: color-mix(in oklab, var(--red) 62%, var(--ink)); }
 .adv .c9 { --c: color-mix(in oklab, var(--red) 34%, var(--ink)); }
+/* dark theme: the two top classes turn towards yellow, not the light ink, so they grow brighter and stay saturated
+   (lightness keeps rising class by class; mixed with the light ink they faded to pink and read as less) */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .adv .c8 { --c: color-mix(in oklab, var(--red) 60%, var(--yellow, var(--red))); } :root:not([data-theme="light"]) .adv .c9 { --c: color-mix(in oklab, var(--red) 25%, var(--yellow, var(--red))); } }
+:root[data-theme="dark"] .adv .c8 { --c: color-mix(in oklab, var(--red) 60%, var(--yellow, var(--red))); } :root[data-theme="dark"] .adv .c9 { --c: color-mix(in oklab, var(--red) 25%, var(--yellow, var(--red))); }
 /* strength classes of the value-by-alpha map: eligible voters per km² */
 .adv .a0 { --a: 22%; } .adv .a1 { --a: 45%; } .adv .a2 { --a: 72%; } .adv .a3 { --a: 100%; }
 
