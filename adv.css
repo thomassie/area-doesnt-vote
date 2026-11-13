@@ -52,7 +52,6 @@
 .adv .masthead { padding-block: clamp(2.5rem, 7vw, 5rem) 0; }
 .adv .masthead__text { display: grid; gap: 1.25rem; max-width: 46rem; min-width: 0; }
 .adv .masthead h1 { font-size: var(--step-3); letter-spacing: -0.02em; }
-.adv .lede { font-size: var(--step-1); line-height: 1.45; max-width: 40rem; }
 
 /* ---------- Headline figures: the far right on the land map and among the votes ---------- */
 .adv .hero { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem clamp(1.5rem, 4vw, 3rem); align-items: start;
@@ -72,12 +71,29 @@
   .adv .hero { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* ---------- Intro (shown also when the host page brings its own title) ---------- */
-.adv .intro { display: grid; gap: 1rem; max-width: 44rem; padding-block: clamp(1.5rem, 4vw, 2.5rem) 0; }
-.adv .intro .lede { font-size: var(--step-1); line-height: 1.45; }
+/* ---------- Sections: text on the left, switches, key and charts on the right (as on the German page) ---------- */
+.adv .block {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: var(--gap);
+  padding-block: clamp(2.5rem, 6vw, 4.5rem);
+  border-bottom: 1px solid var(--rule);
+}
+.adv .block__rail { display: grid; gap: 0.875rem; align-content: start; min-width: 0; }
+.adv .block__rail h2 { font-size: var(--step-2); }
+.adv .block__rail p { color: var(--muted); max-width: 26rem; }
+.adv .block__rail b { font-weight: 500; color: var(--ink); }
+.adv .block__body { display: grid; gap: 1.25rem; min-width: 0; align-content: start; }
+.adv .block__body > * { min-width: 0; }
+/* sections of text only: the heading on the left, the text on the right (as under "How these maps are made") */
+.adv .block--text .block__body { gap: 1rem; max-width: 42rem; }
+.adv .block--text .block__body b { font-weight: 500; }
+@container adv (max-width: 760px) {
+  .adv .block { grid-template-columns: minmax(0, 1fr); }
+}
 
 /* ---------- Switches ---------- */
-.adv .controls { display: grid; gap: 0.75rem; padding-block: clamp(1.75rem, 4vw, 2.75rem) 0.75rem; }
+.adv .controls { display: grid; gap: 0.75rem; }
 .adv--standalone .controls__bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; }
 .adv .controls__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; background: var(--paper);
   padding-block: 0.5rem; border-bottom: 1px solid var(--rule); }
@@ -134,10 +150,10 @@
 
 /* ---------- Maps ---------- */
 .adv .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: clamp(2rem, 4vw, 2.75rem) 1.75rem;
-  padding-block: 1.25rem clamp(2.5rem, 6vw, 4rem); border-bottom: 1px solid var(--rule); }
+  padding-top: 0.25rem; }
 .adv .card { display: grid; gap: 0.6rem; align-content: start; min-width: 0; }
-.adv .card h2 { font-size: var(--step-2); }
-.adv .card h2 .tag { font-family: var(--font-support); font-size: 0.6875rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase;
+.adv .card h3 { font-size: var(--step-1); }
+.adv .card h3 .tag { font-family: var(--font-support); font-size: 0.6875rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--muted); border: 1px solid var(--rule); border-radius: 0; padding: 1px 6px; margin-left: 0.5rem; vertical-align: 0.2em; }
 .adv .by { font-family: var(--font-support); font-size: var(--step--1); color: var(--muted); }
 .adv .card svg { width: 100%; height: auto; display: block; touch-action: manipulation; }
@@ -187,13 +203,8 @@
 .adv .tt__rows dt { font-family: var(--font-support); font-size: 0.8125rem; color: var(--muted); }
 .adv .tt__rows dd { margin: 0; font-family: var(--font-support); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
 
-/* ---------- Why the usual map misleads ---------- */
-.adv .essay { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--gap); padding-block: clamp(2.5rem, 6vw, 4rem); border-bottom: 1px solid var(--rule); }
-.adv .essay h2 { font-size: var(--step-2); }
-.adv .essay__body { display: grid; gap: 1rem; max-width: 42rem; min-width: 0; }
-.adv .essay__body h3 { font-size: var(--step-1); margin-top: 0.75rem; }
-.adv .essay__body b { font-weight: 500; }
-.adv .bias { margin: 0.5rem 0; display: grid; gap: 0.5rem; }
+/* ---------- Why the usual map misleads: the land map's bias, election by election ---------- */
+.adv .bias { margin: 0; display: grid; gap: 0.5rem; }
 .adv .bias figcaption { display: grid; gap: 0.15rem; font-size: 0.9375rem; }
 .adv .bias figcaption span { font-family: var(--font-support); font-size: var(--step--1); color: var(--muted); }
 .adv .bias svg { width: 100%; height: auto; display: block; }
@@ -202,9 +213,6 @@
 .adv .bias__zero { stroke: var(--ink); stroke-width: 1px; }
 .adv .bias__val, .adv .bias__year { font-family: var(--font-support); font-size: 11.5px; fill: var(--muted); dominant-baseline: central; font-variant-numeric: tabular-nums; white-space: pre; }
 .adv .bias__year { text-anchor: end; }
-@container adv (max-width: 760px) {
-  .adv .essay { grid-template-columns: minmax(0, 1fr); }
-}
 
 /* the selection kept by a click or tap: its figures in a bar at the bottom of the screen */
 .adv .pinbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; background: var(--paper); border-top: 1px solid var(--rule);
@@ -223,12 +231,12 @@
 
 /* cross-link to The Far Right in Germany under the maps */
 /* a note between two rules, like a table row: no box */
-.adv .xlink { max-width: 46rem; margin: 1.5rem 0 0; padding: 0.8rem 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: 0.9375rem; line-height: 1.45; }
+.adv .xlink { max-width: 46rem; margin: 0; padding: 0.8rem 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-size: 0.9375rem; line-height: 1.45; }
 .adv .xlink:empty { display: none; }
 .adv .xlink b { font-weight: 500; }
 
 /* table view */
-.adv .tableview { padding-block: 1.5rem; border-bottom: 1px solid var(--rule); }
+.adv .tableview { padding-block: 0; }
 .adv .tableview summary { font-family: var(--font-support); font-size: 0.9375rem; cursor: pointer; color: var(--link); width: max-content; max-width: 100%; }
 .adv .tablewrap { overflow: auto; max-height: 28rem; margin-top: 1rem; }
 .adv table { border-collapse: collapse; width: 100%; font-size: 0.9375rem; }

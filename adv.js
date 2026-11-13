@@ -12,7 +12,7 @@
    Styles: adv.css (scoped under .adv); colours come from the host's tokens or theme.css.
    One meaning per colour: red = far right, ink = the actual result.
    The address keeps the view: #2025, #2025-counties, #2025-by (a state's two-letter code).
-   Cross-links: the lede and the note under the maps link to The Far Right in Germany (GERMANY); #counties-<year>
+   Cross-links: the introduction and the note under the maps link to The Far Right in Germany (GERMANY); #counties-<year>
    opens its county map at that year. */
 (function () {
   'use strict';
@@ -27,7 +27,7 @@
   const DOT = '<svg class="title-dot" viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="5"/></svg>';
   const card = (kind, title, by, aria, pros, cons, extra = '') => `
     <article class="card card--${kind}" data-panel="${kind}">
-      <header><h2>${title}</h2><p class="by">${by}</p></header>
+      <header><h3>${title}</h3><p class="by">${by}</p></header>
       <svg role="img" aria-label="${aria}"></svg>
       ${extra}
       <div class="stat"></div>
@@ -54,71 +54,89 @@
     </div>
     <p class="hero__why">The map makes the far right look <b data-hero="more"></b> stronger than it was. The <span data-f="de-n"></span> counties where it did better than its national result cover <b data-f="de-land"></b> of the land but hold only <b data-f="de-e"></b> of the eligible voters: big, thinly populated counties fill the map, while the cities, home to far more voters per square kilometre, shrink to small patches.</p>
   </section>
-  <section class="intro" aria-label="About this page">
-    <p class="lede">Election results are usually shown on a choropleth map: every area, be it a state, a county or a town, is coloured by a share of the vote. Such a map is quick to read and easy to make. It also has a bias built in. The eye weighs a colour by the space it covers, but land doesn&rsquo;t vote, people do.</p>
-    <p>On <a href="${GERMANY}">The Far Right in Germany</a> I map the far right&rsquo;s share of the second vote in every federal election since 1953: county by county within the boundaries of election day, and town by town for 2017 to 2025, all from the federal returning officer&rsquo;s official results. There I chose choropleth maps on purpose. With 400 counties, or some 10,700 municipalities, readers first need to find their way: their own place, the regions they know, the borders between the states. The familiar map does that best.</p>
-    <p>I am aware of what that map gets wrong. Big, thinly populated counties fill most of it, so wherever the far right does better in the countryside, the map makes it look stronger than it is. This page is my explainer: the same results drawn four more ways, sized by the people eligible to vote, next to the usual map, and below them what each way shows and hides.</p>
-    <p>Maps can mislead by accident, through a default nobody questioned, or on purpose, to steer readers towards a conclusion the data do not support. As with charts, doing it on purpose is never acceptable. A map should show what the data say, state what it sizes and colours, and let readers check the numbers behind it. That is the standard I hold these maps to.</p>
-  </section>
-  <div class="controls">
-    <div class="seg seg--years" id="adv-years" role="group" aria-label="Election"></div>
-    <div class="controls__bar">
-      <label class="pick pick--year" for="adv-year">Election <select id="adv-year"></select></label>
-      <label class="pick" for="adv-area">Show <select id="adv-area"></select></label>
-      <div class="seg seg--level" id="adv-level" role="group" aria-label="Areas">
-        <button type="button" data-level="states" aria-pressed="true">16 states</button>
-        <button type="button" data-level="counties" aria-pressed="false">Counties</button>
-      </div>
-      <span class="count" id="adv-count" hidden></span>
-      <div class="key" id="adv-key"></div>
+  <section class="block" aria-labelledby="adv-h-maps">
+    <div class="block__rail">
+      <h2 id="adv-h-maps">Five maps of the same result${DOT}</h2>
+      <p>Election results are usually shown on a choropleth map: every area, be it a state, a county or a town, is coloured by a share of the vote. Such a map is quick to read and easy to make. It also has a bias built in. The eye weighs a colour by the space it covers, but land doesn&rsquo;t vote, people do.</p>
+      <p>On <a href="${GERMANY}">The Far Right in Germany</a> I map the far right&rsquo;s share of the second vote in every federal election since 1953: county by county within the boundaries of election day, and town by town for 2017 to 2025, all from the federal returning officer&rsquo;s official results. There I chose choropleth maps on purpose. With 400 counties, or some 10,700 municipalities, readers first need to find their way: their own place, the regions they know, the borders between the states. The familiar map does that best.</p>
+      <p>I am aware of what that map gets wrong. Big, thinly populated counties fill most of it, so wherever the far right does better in the countryside, the map makes it look stronger than it is. This page is my explainer: the same results drawn four more ways, sized by the people eligible to vote, next to the usual map, and below them what each way shows and hides.</p>
+      <p>Maps can mislead by accident, through a default nobody questioned, or on purpose, to steer readers towards a conclusion the data do not support. As with charts, doing it on purpose is never acceptable. A map should show what the data say, state what it sizes and colours, and let readers check the numbers behind it. That is the standard I hold these maps to.</p>
     </div>
-    <p class="fact" id="adv-fact" aria-live="polite"></p>
-    <p class="note" id="adv-note"></p>
-  </div>
-  <section class="grid" id="adv-grid" aria-label="Five maps of the same result">
-    ${card('land', 'Land map<span class="tag">usual</span>', 'Size: land area', 'Map by land area, coloured by far-right share',
-      ['Everyone recognises it; borders and places are where they belong.'],
-      ['Big, thinly populated areas dominate, whatever their number of voters.'])}
-    ${card('carto', 'Contiguous cartogram', 'Size: eligible voters &middot; borders stretched, neighbours kept', 'Contiguous cartogram, area by eligible voters',
-      ['Stays in one piece, and every neighbour stays a neighbour.', 'Each area matches its voters closely (<span data-err></span>).'],
-      ['Shapes warp: cities balloon and the countryside thins into strips that are hard to find.'])}
-    ${card('dor', 'Dorling circles', 'Size: eligible voters &middot; one circle per area, near its place', 'Dorling cartogram, one circle per area sized by eligible voters',
-      ['Area is exact and easy to compare: one circle, one area.'],
-      ['Borders and shapes are gone; circles drift away from their neighbours.', 'The gaps between circles look like empty land.'])}
-    ${card('hex', 'Equal-voter hexagons', 'Size: one hexagon = <span data-tile></span> eligible voters', 'Tile map, each hexagon the same number of eligible voters',
-      ['Countable: every tile is the same number of people, so blocks of colour compare directly.', 'Even texture with no slivers; even the smallest area gets a tile.'],
-      ['Shapes are rough, and each area is rounded to whole tiles.'])}
-    ${card('alpha', 'Value-by-alpha', 'Size: land area &middot; strength: eligible voters per km&sup2;', 'Map by land area, colour strength by eligible voters per square kilometre',
-      ['The familiar map, undistorted.', 'Thinly populated areas fade, so big empty ones stop shouting.'],
-      ['Land still takes the space, only fainter.', 'A faded dark colour can look like a strong light one.'],
-      '<figure class="akey" id="adv-akey" aria-label="Colour by far-right share, strength by eligible voters per km²"></figure>')}
+    <div class="block__body">
+      <div class="controls">
+        <div class="seg seg--years" id="adv-years" role="group" aria-label="Election"></div>
+        <div class="controls__bar">
+          <label class="pick pick--year" for="adv-year">Election <select id="adv-year"></select></label>
+          <label class="pick" for="adv-area">Show <select id="adv-area"></select></label>
+          <div class="seg seg--level" id="adv-level" role="group" aria-label="Areas">
+            <button type="button" data-level="states" aria-pressed="true">16 states</button>
+            <button type="button" data-level="counties" aria-pressed="false">Counties</button>
+          </div>
+          <span class="count" id="adv-count" hidden></span>
+          <div class="key" id="adv-key"></div>
+        </div>
+        <p class="fact" id="adv-fact" aria-live="polite"></p>
+        <p class="note" id="adv-note"></p>
+      </div>
+      <div class="grid" id="adv-grid" role="group" aria-label="Five maps of the same result">
+        ${card('land', 'Land map<span class="tag">usual</span>', 'Size: land area', 'Map by land area, coloured by far-right share',
+        ['Everyone recognises it; borders and places are where they belong.'],
+        ['Big, thinly populated areas dominate, whatever their number of voters.'])}
+        ${card('carto', 'Contiguous cartogram', 'Size: eligible voters &middot; borders stretched, neighbours kept', 'Contiguous cartogram, area by eligible voters',
+        ['Stays in one piece, and every neighbour stays a neighbour.', 'Each area matches its voters closely (<span data-err></span>).'],
+        ['Shapes warp: cities balloon and the countryside thins into strips that are hard to find.'])}
+        ${card('dor', 'Dorling circles', 'Size: eligible voters &middot; one circle per area, near its place', 'Dorling cartogram, one circle per area sized by eligible voters',
+        ['Area is exact and easy to compare: one circle, one area.'],
+        ['Borders and shapes are gone; circles drift away from their neighbours.', 'The gaps between circles look like empty land.'])}
+        ${card('hex', 'Equal-voter hexagons', 'Size: one hexagon = <span data-tile></span> eligible voters', 'Tile map, each hexagon the same number of eligible voters',
+        ['Countable: every tile is the same number of people, so blocks of colour compare directly.', 'Even texture with no slivers; even the smallest area gets a tile.'],
+        ['Shapes are rough, and each area is rounded to whole tiles.'])}
+        ${card('alpha', 'Value-by-alpha', 'Size: land area &middot; strength: eligible voters per km&sup2;', 'Map by land area, colour strength by eligible voters per square kilometre',
+        ['The familiar map, undistorted.', 'Thinly populated areas fade, so big empty ones stop shouting.'],
+        ['Land still takes the space, only fainter.', 'A faded dark colour can look like a strong light one.'],
+        '<figure class="akey" id="adv-akey" aria-label="Colour by far-right share, strength by eligible voters per km²"></figure>')}
+      </div>
+      <p class="xlink" id="adv-xlink"></p>
+      <details class="tableview" id="adv-table">
+        <summary>Show as a table</summary>
+        <div class="tablewrap"><table><thead></thead><tbody></tbody></table></div>
+      </details>
+    </div>
   </section>
-  <p class="xlink" id="adv-xlink"></p>
-  <section class="essay" aria-labelledby="adv-h-why">
-    <h2 id="adv-h-why">Why the usual map misleads${DOT}</h2>
-    <div class="essay__body">
+  <section class="block" aria-labelledby="adv-h-why">
+    <div class="block__rail">
+      <h2 id="adv-h-why">Why the usual map misleads${DOT}</h2>
       <p>The land map colours each area by a share of the vote. The eye, though, weighs a colour by the space it covers, and areas differ enormously in how many people live in them. In 2025 Berlin had <span data-f="be-e"></span> eligible voters on <span data-f="be-km2"></span> km&sup2;; <span data-f="big-n"></span>, Germany&rsquo;s largest county, had <span data-f="big-e"></span> on <span data-f="big-km2"></span> km&sup2;. On the land map the county takes <span data-f="big-x"></span> times Berlin&rsquo;s space with <span data-f="big-p"></span> of its voters.</p>
       <p>That matters when a party does better in the countryside. In 2025 the far right beat its national <span data-f="de-res"></span> in <span data-f="de-n"></span> counties. They cover <span data-f="de-land"></span> of Germany but hold <span data-f="de-e"></span> of its eligible voters, so the land map shows the far right at <span data-f="de-avg"></span> on average. In Saxony it won <span data-f="sn-res"></span>: the <span data-f="sn-n"></span> counties where it did better cover <span data-f="sn-land"></span> of the state, while <span data-f="sn-below"></span>, below that, hold <span data-f="sn-e"></span> of the voters on <span data-f="sn-bland"></span> of the land.</p>
+      <p>The far right did better in thinly populated counties in <span data-f="bias-n"></span> of the <span data-f="bias-all"></span> elections, so the land map has nearly always made it look stronger than it was: by <span data-f="bias-25"></span> in 2025.</p>
+    </div>
+    <div class="block__body">
       <figure class="bias" id="adv-bias">
         <figcaption><b>How much stronger the far right looks on the land map than it was</b><span>Far-right share averaged over the land map (each county weighted by its area) against the result, Germany by county; West Germany before 1990.</span></figcaption>
         <svg viewBox="0 0 640 210" role="img" aria-label="Bar chart: the land map's far-right share relative to the result, for each federal election since 1953"></svg>
       </figure>
-      <p>The far right did better in thinly populated counties in <span data-f="bias-n"></span> of the <span data-f="bias-all"></span> elections, so the land map has nearly always made it look stronger than it was: by <span data-f="bias-25"></span> in 2025.</p>
-      <h3>Four ways a map can mislead, and what the experts say</h3>
+    </div>
+  </section>
+  <section class="block block--text" aria-labelledby="adv-h-ways">
+    <div class="block__rail">
+      <h2 id="adv-h-ways">Four ways a map can mislead, and what the experts say${DOT}</h2>
+    </div>
+    <div class="block__body">
       <p><b>1. Land stands in for people.</b> This is the trap above, and the US county map of 2016 is its best-known case: mostly red, although the popular vote was split almost evenly. Alberto Cairo, who teaches visual journalism at the University of Miami, opens his book <em>How Charts Lie</em> (2019) with it: the map shows territory, he writes, not how citizens voted. The cartographer Kenneth Field <a href="https://cartonerd.blogspot.com/2018/07/cartographic-hyperbole.html">made the same point</a> about the New York Times&rsquo; <a href="https://www.nytimes.com/interactive/2018/upshot/election-2016-voting-precinct-maps.html">extremely detailed map of the 2016 election</a> (2018), which coloured a precinct of 100 voters just like one of 100,000. Jonathan Crowe of <a href="https://www.maproomblog.com/2018/07/the-new-york-timess-very-detailed-map-of-the-2016-u-s-presidential-election/">The Map Room</a> replied that the map was made to be zoomed into a neighbourhood, and there it works. Both are right. A land map answers &ldquo;what happened here?&rdquo; well, and &ldquo;how did the country vote?&rdquo; badly.</p>
       <p><b>2. Winner maps keep only first place.</b> Colouring each constituency in the colour of its strongest party is the most common election map, because it matches how a constituency is won. It drops everything else: the margin, the runner-up, and everyone who voted for another party. <a href="https://www.srf.ch/news/international/deutschland-wahlen-2025/wahlen-in-deutschland-schwarzer-westen-blauer-osten-so-waehlten-die-299-wahlkreise">SRF&rsquo;s map of the 299 constituencies</a> showed a blue east, the AfD ahead in 45 of 48 eastern constituencies; yet the far right won <span data-f="east"></span> of the second votes in the five eastern states, and nearly two in three voters there chose other parties. In Germany such a map also shows the vote that matters less. Seats follow the second vote, and since the 2023 reform a constituency winner gets a seat only if the party&rsquo;s second votes cover it: in 2025, <a href="https://www.bundestag.de/dokumente/textarchiv/2025/kw09-wahlkreis-unbesetzt-1055568">23 constituency winners did not enter the Bundestag</a>. A map of shares, like the ones on this page, keeps the shades in between.</p>
       <p><b>3. Smaller areas, stronger colours.</b> The same votes look different depending on the areas they are counted in; geographers call this the modifiable areal unit problem (Stan Openshaw, 1984). Small areas show local patterns that counties average away, but they also produce the extremes. No county gave the far right half of its votes in 2025 (the highest, <span data-f="top"></span>), while on the town map of <a href="${GERMANY}#towns-2025">The Far Right in Germany</a> the AfD alone passed 50% in 100 areas. Half of those counted fewer than about 2,100 valid votes, where twenty-odd votes move the share by a point. Neither map is wrong, but a reader needs to know which areas are coloured and how many people each holds.</p>
       <p><b>4. Where the steps fall.</b> Colour classes make a map readable, but where their limits lie decides what stands out, and the darkest colours draw the eye first, whatever share they stand for. Lisa Charlotte Muth of Datawrapper <a href="https://www.datawrapper.de/blog/how-to-choose-a-color-palette-for-choropleth-maps">shows</a> how classes fitted to the data can make close values look far apart and distant ones close. Both pages here use the same nine fixed classes in every election, so colours compare across the years: in 1953 two thirds of the counties sit in the lightest class, because the far right was small.</p>
-      <h3>Doing better</h3>
+    </div>
+  </section>
+  <section class="block block--text" aria-labelledby="adv-h-better">
+    <div class="block__rail">
+      <h2 id="adv-h-better">Doing better${DOT}</h2>
+    </div>
+    <div class="block__body">
       <p>There is no single right map, which is why this page shows five. Sizing areas by people is the most direct fix: the physicist Mark Newman and colleagues&rsquo; <a href="https://public.websites.umich.edu/~mejn/papers/election.pdf">cartograms of US elections</a>, Karim Dou&iuml;eb&rsquo;s <a href="https://www.fastcompany.com/90572489/u-">animation</a> of the 2016 county map turning into circles, and the cartogram, circles and hexagons here. Each gives up some of the familiar shape; Muth <a href="https://www.datawrapper.de/blog/cartograms">suggests</a> a cartogram when the point is how many people are affected, and a map when the point is where. Other approaches keep the map and correct it. Field <a href="https://cartonerd.blogspot.com/2016/11/the-nyt-election-map.html">proposes</a> value-by-alpha, proportional symbols and dot maps; for the 2016 US election the Financial Times chose a dot map as a compromise between map and cartogram (<a href="https://www.maproomblog.com/2016/11/the-financial-times-searches-for-a-better-election-map/">The Map Room</a>); Jonathan Schwabish shows each area&rsquo;s share together with its number of votes in a <a href="https://jschwabish.substack.com/p/beyond-the-map-how-marimekko-charts">Marimekko chart</a>.</p>
       <p>Whatever the form, two habits help most: say what the size of each area stands for, and show the numbers behind the colours, how many people each area holds and what the result was. <a href="https://www.bloomberg.com/news/articles/2020-11-03/a-complete-guide-to-misleading-election-maps">Bloomberg&rsquo;s guide</a> to misleading election maps (2020) asks the same of readers: to look at election maps critically before trusting them.</p>
     </div>
   </section>
-
-  <details class="tableview" id="adv-table">
-    <summary>Show as a table</summary>
-    <div class="tablewrap"><table><thead></thead><tbody></tbody></table></div>
-  </details>
 </div>
 <footer class="foot wrap">
   <h2>How these maps are made</h2>
