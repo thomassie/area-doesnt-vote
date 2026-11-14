@@ -64,9 +64,8 @@
     </div>
     <div class="block__body">
       <div class="controls">
-        <div class="seg seg--years" id="adv-years" role="group" aria-label="Election"></div>
+        <div class="adv-slider" id="adv-years"></div>
         <div class="controls__bar">
-          <label class="pick pick--year" for="adv-year">Election <select id="adv-year"></select></label>
           <label class="pick" for="adv-area">Show <select id="adv-area"></select></label>
           <div class="seg seg--level" id="adv-level" role="group" aria-label="Areas">
             <button type="button" data-level="states" aria-pressed="true">16 states</button>
@@ -301,18 +300,34 @@
     const fs = features(V, arcs);
     const fit = d3.geoIdentity().reflectY(true).fitExtent([[PAD, PAD], [W - PAD, H - PAD]], { type: 'FeatureCollection', features: fs });
     const path = d3.geoPath(fit);
-    const g = el('g', svg, {}), acc = new Map();
+    const g = el('g', svg, {}), acc = new Map(), parts = new Map();
     fs.forEach((f, gi) => {
       const i = V.itemOf(gi), d = V.items[i];
       el('path', g, { d: path(f), class: 'k c' + binOf(d) + (alpha ? ' a' + dclass(d) : '') + (V.byState ? ' same' : ''), 'data-k': keyOf(i) });
       const a = path.area(f), c = path.centroid(f);
-      if (!acc.has(i)) acc.set(i, [0, 0, 0]);
+      if (!acc.has(i)) { acc.set(i, [0, 0, 0]); parts.set(i, []); }
       const t = acc.get(i); t[0] += a * c[0]; t[1] += a * c[1]; t[2] += a;
+      parts.get(i).push([f, c]);
     });
     if (S.area === 'DE') el('path', svg, { class: 'lines lines--state', d: path(mesh(V, arcs, (a, b) => V.stateOf(a) !== V.stateOf(b))) });
     el('path', svg, { class: 'lines lines--outline', d: path(mesh(V, arcs, (a, b) => a === b)) });
+    // a label at the area's weighted centre, unless that centre lies outside the area: Brandenburg's falls in Berlin,
+    // the hole in its middle. Then the centre of its part nearest to that point that holds its own centre.
+    const inside = (f, p) => (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates)
+      .some((rings) => d3.polygonContains(rings[0].map(fit), p) && !rings.slice(1).some((h) => d3.polygonContains(h.map(fit), p)));
+    const labelled = new Set(labelsFor(V).map(([i]) => i));
     const pos = new Map();
     acc.forEach((t, i) => pos.set(i, [t[0] / t[2], t[1] / t[2]]));
+    // the parts are tried nearest first; one at least 28px from every other label wins, else the nearest
+    const d2 = (a, b) => (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2;
+    labelled.forEach((i) => {
+      const p = pos.get(i), own = parts.get(i);
+      if (!p || own.some(([f]) => inside(f, p))) return;
+      const ok = own.filter(([f, c]) => inside(f, c)).sort((a, b) => d2(a[1], p) - d2(b[1], p));
+      const others = [...labelled].filter((j) => j !== i).map((j) => pos.get(j)).filter(Boolean);
+      const clear = ok.find(([, c]) => others.every((q) => d2(c, q) >= 28 * 28));
+      if (ok.length) pos.set(i, (clear || ok[0])[1]);
+    });
     drawLabels(svg, V, pos);
   }
 
@@ -460,9 +475,44 @@
   // ---------- switches ----------
   function setYear(y) {
     S.year = y;
-    $('#adv-years').querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.year === y)));
-    $('#adv-year').value = String(y);
+    markSlider(y);
     fillAreas();
+  }
+  // the election: a slider as on Asking for Protection (one rule, a red dot as the handle, a tick and a label per
+  // election), evenly spaced by election. A native range input underneath, so keys, touch and screen readers work as
+  // they do everywhere.
+  function fillSlider(years) {
+    const el = $('#adv-years'), n = years.length, at = (i) => (n > 1 ? (100 * i) / (n - 1) : 0);
+    el.innerHTML = '<input type="range" min="0" max="' + (n - 1) + '" step="1" aria-label="Election">' +
+      '<div class="adv-slider__ticks" aria-hidden="true">' +
+      years.map((y, i) => '<span class="adv-slider__tick" data-v="' + y + '" style="left:' + at(i) + '%">' + y + '</span>').join('') + '</div>';
+    const input = el.querySelector('input');
+    let raf = 0;
+    input.addEventListener('input', () => {
+      const y = years[+input.value];
+      markSlider(y);
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => { if (y !== S.year) { S.year = y; go(); } });
+    });
+    new ResizeObserver(() => markSlider(S.year)).observe(el);
+  }
+  function markSlider(y) {
+    const el = $('#adv-years'), input = el.querySelector('input');
+    if (!input) return;
+    const ticks = [...el.querySelectorAll('.adv-slider__tick')], i = ticks.findIndex((t) => +t.dataset.v === y);
+    if (i >= 0 && +input.value !== i) input.value = String(i);
+    input.setAttribute('aria-valuetext', String(y));
+    ticks.forEach((t, k) => t.classList.toggle('is-on', k === i));
+    // every label that fits: the chosen election's first, then the two ends, then the rest from the left; a label that
+    // would come within 6px of one already written is left out (the ends sit flush, so they crowd their neighbours)
+    const order = [i, 0, ticks.length - 1, ...ticks.keys()].filter((k, j, a) => k >= 0 && a.indexOf(k) === j);
+    const kept = [];
+    order.forEach((k) => {
+      const r = ticks[k].getBoundingClientRect();
+      const fits = !kept.some((q) => r.left < q.right + 6 && r.right > q.left - 6);
+      if (fits) kept.push(r);
+      ticks[k].classList.toggle('is-off', !fits);
+    });
   }
   function fillAreas() {
     const sel = $('#adv-area'), rows = [...ROWS.get(S.year).values()];
@@ -648,18 +698,12 @@
     $('#adv-hero-votes').innerHTML = big(heroRes);
     root.querySelector('[data-hero="year"]').textContent = last;
     root.querySelector('[data-hero="more"]').textContent = d3.format('.0f')(100 * (heroMap / heroRes - 1)) + '%';
-    $('#adv-years').innerHTML = years.map((y) => '<button type="button" data-year="' + y + '" aria-pressed="false">' + y + '</button>').join('');
-    $('#adv-year').innerHTML = years.slice().reverse().map((y) => '<option value="' + y + '">' + y + '</option>').join('');
+    fillSlider(years);
     $('#adv-key').innerHTML = '<span class="key__title">Far right, % of second votes</span>' +
       BIN_LABELS.map((l, i) => '<span class="c' + (i + 1) + '"><i></i>' + l + '</span>').join('');
     $('#adv-akey').innerHTML = ['1,000+', '250–1,000', '100–250', '<100'].map((r, j) => '<span class="rl">' + r + '</span>' +
       BIN_LABELS.map((l, i) => '<i class="c' + (i + 1) + ' a' + (3 - j) + '"></i>').join('')).join('') +
       '<span></span><span class="cap">eligible voters per km² (rows) by far-right share (columns)</span>';
-    $('#adv-years').addEventListener('click', (e) => {
-      const b = e.target.closest('button');
-      if (b && +b.dataset.year !== S.year) { S.year = +b.dataset.year; go(); }
-    });
-    $('#adv-year').addEventListener('change', (e) => { S.year = +e.target.value; go(); });
     $('#adv-area').addEventListener('change', (e) => { S.area = e.target.value; go(); });
     $('#adv-level').addEventListener('click', (e) => {
       const b = e.target.closest('button');
